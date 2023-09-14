@@ -243,7 +243,8 @@ class MyListView extends StatelessWidget {
 
   Future<String> getProcessInput(BuildContext context) async {
     int selectedOption = 0;
-    String header = AppLocalizations.of(context)!.titleImportOption;
+    var localizations = AppLocalizations.of(context)!;
+    String header = localizations.titleImportOption;
     String filePath = "";
     Future<String> tmp = Future.value(false.toString());
 
@@ -256,7 +257,7 @@ class MyListView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                title: Text(AppLocalizations.of(context)!.inputOptionScan),
+                title: Text(localizations.inputOptionScan),
                 onTap: () async {
                   selectedOption = 1;
                   Navigator.pop(context);
@@ -264,7 +265,7 @@ class MyListView extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text(AppLocalizations.of(context)!.inputOptionPdf),
+                title: Text(localizations.inputOptionPdf),
                 onTap: () async {
                   selectedOption = 2;
                   Navigator.pop(context);
@@ -272,7 +273,7 @@ class MyListView extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text(AppLocalizations.of(context)!.inputOptionImage),
+                title: Text(localizations.inputOptionImage),
                 onTap: () async {
                   selectedOption = 3;
                   Navigator.pop(context);
@@ -365,6 +366,11 @@ class MyListView extends StatelessWidget {
     String filePath = await getProcessInput(
       context,
     );
+
+     if (filePath == false.toString()){
+        //canceled file picker
+        return;
+     }
 
     if (isValidFilePath(filePath)) {
       //the user opened a file instead of scanning a document
