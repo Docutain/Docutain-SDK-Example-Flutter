@@ -15,6 +15,8 @@ It contains modules which are individually licensable.
 
 For more details visit our website https://sdk.Docutain.com
 
+Check out our blog articles on [How to create a Flutter Document Scanner](https://sdk.docutain.com/blogartikel/how-to-create-a-flutter-document-scanner) and [How to create a Flutter Plugin from scratch](https://sdk.docutain.com/blogartikel/how-to-create-a-flutter-plugin-from-scratch).
+
 ## Getting started
 
 Clone the repo:
