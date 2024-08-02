@@ -10,6 +10,8 @@
   "documentScanner": "Dokumentenscanner",
   "generatePdf": "PDF-Dokument erstellen",
   "generatePdfDesc": "Generiere ein durchsuchbares (mit erkanntem Text) PDF-Dokument aus den gescannten Seiten oder importierten Bildern.",
+  "settings": "Einstellungen",
+  "settingsDesc": "Konfigurieren Sie Farbe, Scanner und Bearbeitung des SDK.",
   "ibanHint": "IBAN",
   "inputOptionImage": "Bild importieren",
   "inputOptionPdf": "PDF importieren",

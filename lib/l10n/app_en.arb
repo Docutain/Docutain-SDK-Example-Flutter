@@ -10,6 +10,8 @@
   "documentScanner": "Document Scanner",
   "generatePdf": "Generate PDF Document",
   "generatePdfDesc": "Generate a searchable (includes recognized text) PDF document out of the scanned pages or imported image.",
+  "settings": "Settings",
+  "settingsDesc": "Configure color, scanner and editing of the SDK.",
   "ibanHint": "IBAN",
   "inputOptionImage": "Image Import",
   "inputOptionPdf": "PDF Import",
@@ -25,5 +27,86 @@
   "textRecognition": "Text Recognition (OCR)",
   "textRecognitionDesc": "Run OCR on the previously scanned or imported (PDF or Image) document and get the recognized text.",
   "titleImportOption": "First, scan or import a document",
-  "zipcodeHint": "Zipcode"
+  "zipcodeHint": "Zipcode",
+
+  "color_primary_title": "ColorPrimary",
+  "color_primary_subtitle": "Used to tint progress indicators and the dialog buttons",
+
+  "color_secondary_title": "ColorSecondary",
+  "color_secondary_subtitle": "Used to tint selectable controls and the capture button",
+
+  "color_on_secondary_title": "ColorOnSecondary",
+  "color_on_secondary_subtitle": "Used to tint elements that reside on ColorSecondary, like the icon of the capture",
+
+  "color_scan_layout_title": "ColorScanButtonsLayoutBackground",
+  "color_scan_layout_subtitle": "Used to tint the background of the layout containing the buttons of the scan layout, like the capture button or torch button",
+
+  "color_scan_foreground_title": "ColorScanButtonsForeground",
+  "color_scan_foreground_subtitle": "Used to tint the foreground of the buttons of the scan layout, like the torch button",
+
+    "color_scan_polygon_title": "ColorScanPolygon",
+    "color_scan_polygon_subtitle": "Used to tint the polygon overlay which highlights the currently detected document",
+
+    "color_bottom_bar_background_title": "ColorBottomBarBackground",
+    "color_bottom_bar_background_subtitle": "Used to tint the bottom toolbar background of the image editing page",
+
+    "color_bottom_bar_forground_title": "ColorBottomBarForeground",
+    "color_bottom_bar_forground_subtitle": "Used to tint the buttons within the bottom toolbar of the image editing page",
+
+    "color_top_bar_background_title": "ColorTopBarBackground",
+    "color_top_bar_background_subtitle": "Used to tint the top toolbar background",
+
+    "color_top_bar_forground_title": "ColorTopBarForeground",
+    "color_top_bar_forground_subtitle": "Used to tint the elements contained in the top toolbar, like buttons and titles",
+
+    "capture_mode_setting_title": "AllowCaptureModeSetting",
+    "capture_mode_setting_subtitle": "If activated, the document scanner toolbar will display an item that allows the user to switch between automatic and manual camera triggering",
+
+    "auto_capture_setting_title": "AutoCapture",
+    "auto_capture_setting_subtitle": "If activated, the camera will capture the image automatically at the right moment",
+
+    "auto_crop_setting_title": "AutoCrop",
+    "auto_crop_setting_subtitle": "If activated, image gets automatically cropped if document was detected. This applies only when importing",
+
+    "multi_page_setting_title": "MultiPage",
+    "multi_page_setting_subtitle": "If activated, scanning multi page documents is possible. Set this to false if you need to scan single page documents",
+
+    "pre_capture_setting_title": "PreCaptureFocus",
+    "pre_capture_setting_subtitle": "If activated, the camera will run a focus action right before taking the image. This improves the quality of the scanned images, but depending on the device, image capture might take a little bit longer. This applies only to Android",
+
+    "default_scan_setting_title": "DefaultScanFilter",
+    "default_scan_setting_subtitle": "The default scan filter that will be used after scan",
+
+    "allow_page_filter_setting_title": "AllowPageFilter",
+    "allow_page_filter_setting_subtitle": "If deactivated, the bottom toolbar will hide the filter page item",
+
+    "allow_page_rotation_setting_title": "AllowPageRotation",
+    "allow_page_rotation_setting_subtitle": "If deactivated, the bottom toolbar will hide the rotate page item",
+
+    "allow_page_arrangement_setting_title": "AllowPageArrangement",
+    "allow_page_arrangement_setting_subtitle": "If deactivated, the bottom toolbar will hide the arrange page item",
+
+    "allow_page_cropping_setting_title": "AllowPageCropping",
+    "allow_page_cropping_setting_subtitle": "If deactivated, the bottom toolbar will hide the page cropping item",
+
+    "page_arrangement_delete_setting_title": "PageArrangementShowDeleteButton",
+    "page_arrangement_delete_setting_subtitle": "If activated, each item of the page arrangement functionality will show a delete button",
+
+    "page_arrangement_number_setting_title": "PageArrangementShowPageNumber",
+    "page_arrangement_number_setting_subtitle": "If activated, each item of the page arrangement functionality will show its page number",
+
+     "color_settings": "Color Settings",
+      "scan_settings": "Scan Settings",
+      "edit_settings": "Edit Settings",
+      "rest_settings": "Reset",
+
+    "title_scan_dialog": "Please choose …",
+    "cancel_scan_dialog": "Cancel",
+    "auto_option": "Auto",
+    "gray_option": "Gray",
+    "black_and_white_option": "Black & White",
+    "original_option": "Original",
+    "text_option": "Text",
+    "auto_2_option": "Auto2",
+    "illustration_option": "Illustration"
 }
