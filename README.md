@@ -52,7 +52,7 @@ Install dependencies:
 
 ```
 cd ios
-pod install
+pod update
 ```
 
 Open the `Runner.xcworkspace` file from the iOS folder with Xcode.

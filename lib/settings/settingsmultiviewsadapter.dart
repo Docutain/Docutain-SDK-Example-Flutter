@@ -38,7 +38,7 @@ class SettingsMultiViewsAdapterState extends State<SettingsMultiViewsAdapter> {
       items.clear();
       widget.items.clear();
     });
-    Future.delayed(const Duration(milliseconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         widget.items.addAll(newData);
       });
@@ -129,7 +129,8 @@ class _ColorSettingsViewHolderState extends State<ColorSettingsViewHolder> {
     return Column(
       children: [
         ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           title: Text(
             widget.item.title,
             style: const TextStyle(
@@ -186,10 +187,7 @@ class _ColorSettingsViewHolderState extends State<ColorSettingsViewHolder> {
           ),
         ),
         const SizedBox(height: 3),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 12.0)
-        ),
+        Text(label, style: const TextStyle(fontSize: 12.0)),
       ],
     );
   }
@@ -287,7 +285,8 @@ class _ScanSettingsViewHolderState extends State<ScanSettingsViewHolder> {
     return Column(
       children: [
         ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           title: Text(
             widget.item.title,
             style: const TextStyle(
@@ -301,10 +300,7 @@ class _ScanSettingsViewHolderState extends State<ScanSettingsViewHolder> {
               fontSize: 14.0,
             ),
           ),
-          trailing: SizedBox(
-            width: 32,
-            height: 16,
-            child: Switch(
+          trailing: Switch(
               value: _isChecked,
               onChanged: (isChecked) {
                 setState(() {
@@ -314,9 +310,7 @@ class _ScanSettingsViewHolderState extends State<ScanSettingsViewHolder> {
               },
               activeColor: Colors.green,
               inactiveThumbColor: Colors.grey,
-              inactiveTrackColor: Colors.grey.withOpacity(0.5),
-            ),
-          ),
+              inactiveTrackColor: Colors.grey.withOpacity(0.5)),
         ),
         Container(
           width: double.infinity,
@@ -446,7 +440,8 @@ class _EditSettingsViewHolderState extends State<EditSettingsViewHolder> {
     return Column(
       children: [
         ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           title: Text(
             widget.item.title,
             style: const TextStyle(
@@ -461,17 +456,16 @@ class _EditSettingsViewHolderState extends State<EditSettingsViewHolder> {
             ),
           ),
           trailing: Switch(
-            value: _isChecked,
-            onChanged: (isChecked) {
-              setState(() {
-                _isChecked = isChecked;
-              });
-              widget.prefs.saveEditItem(widget.item.editKey, isChecked);
-            },
-            activeColor: Colors.green,
-            inactiveThumbColor: Colors.grey,
-            inactiveTrackColor: Colors.grey.withOpacity(0.5)
-          ),
+              value: _isChecked,
+              onChanged: (isChecked) {
+                setState(() {
+                  _isChecked = isChecked;
+                });
+                widget.prefs.saveEditItem(widget.item.editKey, isChecked);
+              },
+              activeColor: Colors.green,
+              inactiveThumbColor: Colors.grey,
+              inactiveTrackColor: Colors.grey.withOpacity(0.5)),
         ),
         Container(
           width: double.infinity,

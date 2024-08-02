@@ -23,7 +23,6 @@ import 'dataresultpage.dart';
 import 'theme_model.dart';
 import 'package:tuple/tuple.dart';
 
-
 //A valid license key is required, you can generate one on our website https://sdk.docutain.com/TrialLicense?Source=3932680
 String licenseKey = "YOUR_LICENSE_KEY_HERE";
 
@@ -48,9 +47,7 @@ class MyAppState extends State<MyApp> {
             theme: themeModel.lightModeTheme,
             darkTheme: themeModel.darkModeTheme,
             themeMode: themeModel.currentThemeMode,
-            home: MyListView(
-              ctx: context
-            ),
+            home: MyListView(ctx: context),
           );
         },
       ),
@@ -74,7 +71,7 @@ class MyAppState extends State<MyApp> {
       //your logic to deactivate access to SDK functionality
       if (licenseKey == "YOUR_LICENSE_KEY_HERE") {
         showLicenseEmptyDialog();
-      }else{
+      } else {
         showLicenseErrorInfo();
       }
       return;
@@ -93,8 +90,6 @@ class MyAppState extends State<MyApp> {
     //Depending on your needs, you can set the Logger's level
     DocutainSdkLogger.setLogLevel(Level.verbose);
   }
-
-
 
   void initDarkMode() {
     PlatformDispatcher platformDispatcher = View.of(context).platformDispatcher;
@@ -119,7 +114,7 @@ class MyAppState extends State<MyApp> {
           content: const SingleChildScrollView(
               child: Text(
                   "A valid license key is required. Please click \"GET LICENSE\" in order to create a free trial license key on our website.")),
-          actions: <Widget>[           
+          actions: <Widget>[
             TextButton(
               child: const Text("GET LICENSE"),
               onPressed: () async {
@@ -134,42 +129,39 @@ class MyAppState extends State<MyApp> {
   }
 
   Future<void> showLicenseErrorInfo() async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("License error"),
-            content: const SingleChildScrollView(
-              child: Text(
-                  "A valid license key is required. Please contact our support to get an extended trial license."),
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("License error"),
+          content: const SingleChildScrollView(
+            child: Text(
+                "A valid license key is required. Please contact our support to get an extended trial license."),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Contact Support"),
+              onPressed: () async {
+                final Uri emailLaunchUri = Uri(
+                  scheme: 'mailto',
+                  path: 'support.sdk@Docutain.com',
+                  query:
+                      'subject=Trial License Error&body=Please keep your following trial license key in this e-mail: $licenseKey',
+                );
+                try {
+                  await launchUrl(emailLaunchUri);
+                } on Exception catch (_) {
+                  debugPrint(
+                      "No Mail App available, please contact us manually via sdk@Docutain.com");
+                }
+              },
             ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("Contact Support"),
-                onPressed: () async {
-                  final Uri emailLaunchUri = Uri(
-                    scheme: 'mailto',
-                    path: 'support.sdk@Docutain.com',
-                    queryParameters: {
-                      'subject': 'Trial License Error',
-                      'body': 'Please keep your following trial license key in this e-mail: $licenseKey'
-                    },
-                  );
-                    try{
-                      await launchUrl(emailLaunchUri);
-                    } on Exception catch (_) {
-                      debugPrint(
-                        "No Mail App available, please contact us manually via sdk@Docutain.com");
-                    }
-                },
-              ),
-            ],
-          );
-        },
-      );
+          ],
+        );
+      },
+    );
   }
-
 }
 
 class MyApp extends StatefulWidget {
@@ -189,7 +181,6 @@ class MyListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     fillListView(appLocalizations);
 
@@ -257,12 +248,11 @@ class MyListView extends StatelessWidget {
   }
 
   Future<String> startScan({bool imageImport = false}) async {
-
     //There are a lot of settings to configure the scanner to match your specific needs
     //Check out the documentation to learn more https://docs.docutain.com/docs/Flutter/docScan#change-default-scan-behaviour
     var scanConfig = DocumentScannerConfiguration();
 
-    if(imageImport){
+    if (imageImport) {
       scanConfig.source = Source.galleryMultiple;
     }
 
@@ -271,58 +261,102 @@ class MyListView extends StatelessWidget {
     //This is supposed to be just an example, you do not need to implement it in that exact way
     //If you do not want to provide your users the possibility to alter the settings themselves at all
     //You can just set the settings according to the apps needs
-    if(settingsSharedPreferences == null){
+    if (settingsSharedPreferences == null) {
       await _initializePreferences();
     }
 
     //set scan settings
-    scanConfig.allowCaptureModeSetting =
-        settingsSharedPreferences!.getScanItem(ScanSetting.AllowCaptureModeSetting).checkValue;
-    scanConfig.autoCapture =
-        settingsSharedPreferences!.getScanItem(ScanSetting.AutoCapture).checkValue;
+    scanConfig.allowCaptureModeSetting = settingsSharedPreferences!
+        .getScanItem(ScanSetting.AllowCaptureModeSetting)
+        .checkValue;
+    scanConfig.autoCapture = settingsSharedPreferences!
+        .getScanItem(ScanSetting.AutoCapture)
+        .checkValue;
     scanConfig.autoCrop =
         settingsSharedPreferences!.getScanItem(ScanSetting.AutoCrop).checkValue;
-    scanConfig.multiPage =
-        settingsSharedPreferences!.getScanItem(ScanSetting.MultiPage).checkValue;
-    scanConfig.preCaptureFocus =
-        settingsSharedPreferences!.getScanItem(ScanSetting.PreCaptureFocus).checkValue;
-    scanConfig.defaultScanFilter = settingsSharedPreferences!.getScanFilterItem(ScanSetting.DefaultScanFilter).scanValue;
+    scanConfig.multiPage = settingsSharedPreferences!
+        .getScanItem(ScanSetting.MultiPage)
+        .checkValue;
+    scanConfig.preCaptureFocus = settingsSharedPreferences!
+        .getScanItem(ScanSetting.PreCaptureFocus)
+        .checkValue;
+    scanConfig.defaultScanFilter = settingsSharedPreferences!
+        .getScanFilterItem(ScanSetting.DefaultScanFilter)
+        .scanValue;
 
     //set edit settings
-    scanConfig.pageEditConfig.allowPageFilter =
-        settingsSharedPreferences!.getEditItem(EditSetting.AllowPageFilter).editValue;
-    scanConfig.pageEditConfig.allowPageRotation =
-        settingsSharedPreferences!.getEditItem(EditSetting.AllowPageRotation).editValue;
-    scanConfig.pageEditConfig.allowPageArrangement =
-        settingsSharedPreferences!.getEditItem(EditSetting.AllowPageArrangement).editValue;
-    scanConfig.pageEditConfig.allowPageCropping =
-        settingsSharedPreferences!.getEditItem(EditSetting.AllowPageCropping).editValue;
+    scanConfig.pageEditConfig.allowPageFilter = settingsSharedPreferences!
+        .getEditItem(EditSetting.AllowPageFilter)
+        .editValue;
+    scanConfig.pageEditConfig.allowPageRotation = settingsSharedPreferences!
+        .getEditItem(EditSetting.AllowPageRotation)
+        .editValue;
+    scanConfig.pageEditConfig.allowPageArrangement = settingsSharedPreferences!
+        .getEditItem(EditSetting.AllowPageArrangement)
+        .editValue;
+    scanConfig.pageEditConfig.allowPageCropping = settingsSharedPreferences!
+        .getEditItem(EditSetting.AllowPageCropping)
+        .editValue;
     scanConfig.pageEditConfig.pageArrangementShowDeleteButton =
-        settingsSharedPreferences!.getEditItem(EditSetting.PageArrangementShowDeleteButton).editValue;
+        settingsSharedPreferences!
+            .getEditItem(EditSetting.PageArrangementShowDeleteButton)
+            .editValue;
     scanConfig.pageEditConfig.pageArrangementShowPageNumber =
-        settingsSharedPreferences!.getEditItem(EditSetting.PageArrangementShowPageNumber).editValue;
+        settingsSharedPreferences!
+            .getEditItem(EditSetting.PageArrangementShowPageNumber)
+            .editValue;
 
     //set color settings
-    var colorPrimary = settingsSharedPreferences!.getColorItem(ColorSetting.ColorPrimary);
-    scanConfig.colorConfig.colorPrimary = Tuple2(hexStringToColor(colorPrimary.lightCircle), hexStringToColor(colorPrimary.darkCircle));
-    var colorSecondary = settingsSharedPreferences!.getColorItem(ColorSetting.ColorSecondary);
-    scanConfig.colorConfig.colorSecondary = Tuple2(hexStringToColor(colorSecondary.lightCircle), hexStringToColor(colorSecondary.darkCircle));
-    var colorOnSecondary = settingsSharedPreferences!.getColorItem(ColorSetting.ColorOnSecondary);
-    scanConfig.colorConfig.colorOnSecondary = Tuple2(hexStringToColor(colorOnSecondary.lightCircle), hexStringToColor(colorOnSecondary.darkCircle));
-    var colorScanButtonsLayoutBackground = settingsSharedPreferences!.getColorItem(ColorSetting.ColorScanButtonsLayoutBackground);
-    scanConfig.colorConfig.colorScanButtonsLayoutBackground = Tuple2(hexStringToColor(colorScanButtonsLayoutBackground.lightCircle), hexStringToColor(colorScanButtonsLayoutBackground.darkCircle));
-    var colorScanButtonsForeground = settingsSharedPreferences!.getColorItem(ColorSetting.ColorScanButtonsForeground);
-    scanConfig.colorConfig.colorScanButtonsForeground = Tuple2(hexStringToColor(colorScanButtonsForeground.lightCircle), hexStringToColor(colorScanButtonsForeground.darkCircle));
-    var colorScanPolygon = settingsSharedPreferences!.getColorItem(ColorSetting.ColorScanPolygon);
-    scanConfig.colorConfig.colorScanPolygon = Tuple2(hexStringToColor(colorScanPolygon.lightCircle), hexStringToColor(colorScanPolygon.darkCircle));
-    var colorBottomBarBackground = settingsSharedPreferences!.getColorItem(ColorSetting.ColorBottomBarBackground);
-    scanConfig.colorConfig.colorBottomBarBackground = Tuple2(hexStringToColor(colorBottomBarBackground.lightCircle), hexStringToColor(colorBottomBarBackground.darkCircle));
-    var colorBottomBarForeground = settingsSharedPreferences!.getColorItem(ColorSetting.ColorBottomBarForeground);
-    scanConfig.colorConfig.colorBottomBarForeground = Tuple2(hexStringToColor(colorBottomBarForeground.lightCircle), hexStringToColor(colorBottomBarForeground.darkCircle));
-    var colorTopBarBackground = settingsSharedPreferences!.getColorItem(ColorSetting.ColorTopBarBackground);
-    scanConfig.colorConfig.colorTopBarBackground = Tuple2(hexStringToColor(colorTopBarBackground.lightCircle), hexStringToColor(colorTopBarBackground.darkCircle));
-    var colorTopBarForeground = settingsSharedPreferences!.getColorItem(ColorSetting.ColorTopBarForeground);
-    scanConfig.colorConfig.colorTopBarForeground = Tuple2(hexStringToColor(colorTopBarForeground.lightCircle), hexStringToColor(colorTopBarForeground.darkCircle));
+    var colorPrimary =
+        settingsSharedPreferences!.getColorItem(ColorSetting.ColorPrimary);
+    scanConfig.colorConfig.colorPrimary = Tuple2(
+        hexStringToColor(colorPrimary.lightCircle),
+        hexStringToColor(colorPrimary.darkCircle));
+    var colorSecondary =
+        settingsSharedPreferences!.getColorItem(ColorSetting.ColorSecondary);
+    scanConfig.colorConfig.colorSecondary = Tuple2(
+        hexStringToColor(colorSecondary.lightCircle),
+        hexStringToColor(colorSecondary.darkCircle));
+    var colorOnSecondary =
+        settingsSharedPreferences!.getColorItem(ColorSetting.ColorOnSecondary);
+    scanConfig.colorConfig.colorOnSecondary = Tuple2(
+        hexStringToColor(colorOnSecondary.lightCircle),
+        hexStringToColor(colorOnSecondary.darkCircle));
+    var colorScanButtonsLayoutBackground = settingsSharedPreferences!
+        .getColorItem(ColorSetting.ColorScanButtonsLayoutBackground);
+    scanConfig.colorConfig.colorScanButtonsLayoutBackground = Tuple2(
+        hexStringToColor(colorScanButtonsLayoutBackground.lightCircle),
+        hexStringToColor(colorScanButtonsLayoutBackground.darkCircle));
+    var colorScanButtonsForeground = settingsSharedPreferences!
+        .getColorItem(ColorSetting.ColorScanButtonsForeground);
+    scanConfig.colorConfig.colorScanButtonsForeground = Tuple2(
+        hexStringToColor(colorScanButtonsForeground.lightCircle),
+        hexStringToColor(colorScanButtonsForeground.darkCircle));
+    var colorScanPolygon =
+        settingsSharedPreferences!.getColorItem(ColorSetting.ColorScanPolygon);
+    scanConfig.colorConfig.colorScanPolygon = Tuple2(
+        hexStringToColor(colorScanPolygon.lightCircle),
+        hexStringToColor(colorScanPolygon.darkCircle));
+    var colorBottomBarBackground = settingsSharedPreferences!
+        .getColorItem(ColorSetting.ColorBottomBarBackground);
+    scanConfig.colorConfig.colorBottomBarBackground = Tuple2(
+        hexStringToColor(colorBottomBarBackground.lightCircle),
+        hexStringToColor(colorBottomBarBackground.darkCircle));
+    var colorBottomBarForeground = settingsSharedPreferences!
+        .getColorItem(ColorSetting.ColorBottomBarForeground);
+    scanConfig.colorConfig.colorBottomBarForeground = Tuple2(
+        hexStringToColor(colorBottomBarForeground.lightCircle),
+        hexStringToColor(colorBottomBarForeground.darkCircle));
+    var colorTopBarBackground = settingsSharedPreferences!
+        .getColorItem(ColorSetting.ColorTopBarBackground);
+    scanConfig.colorConfig.colorTopBarBackground = Tuple2(
+        hexStringToColor(colorTopBarBackground.lightCircle),
+        hexStringToColor(colorTopBarBackground.darkCircle));
+    var colorTopBarForeground = settingsSharedPreferences!
+        .getColorItem(ColorSetting.ColorTopBarForeground);
+    scanConfig.colorConfig.colorTopBarForeground = Tuple2(
+        hexStringToColor(colorTopBarForeground.lightCircle),
+        hexStringToColor(colorTopBarForeground.darkCircle));
 
     //for theming possibilities see [https://docs.docutain.com/docs/Flutter/theming]
 
@@ -426,7 +460,7 @@ class MyListView extends StatelessWidget {
       debugPrint('No file selected');
       return false.toString();
     }
-  }  
+  }
 
   void startDataExtraction(BuildContext context) async {
     String filePath = await getProcessInput(context);
@@ -506,5 +540,4 @@ class MyListView extends StatelessWidget {
       settingsSharedPreferences!.defaultSettings();
     }
   }
-
 }
