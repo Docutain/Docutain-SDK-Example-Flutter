@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'SettingsSharedPreferences.dart';
+import 'settingssharedpreferences.dart';
 import 'data.dart';
 
 class SettingsMultiViewsAdapter extends StatefulWidget {
@@ -148,13 +148,19 @@ class _ColorSettingsViewHolderState extends State<ColorSettingsViewHolder> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildColorCircleWithText(cachedItem.lightCircle, 'Light', () {
-                _openColorPicker(context, ColorType.Light);
-              }),
+              Semantics(
+                  identifier: "${cachedItem.colorKey.name}_Light",
+                  child: _buildColorCircleWithText(
+                      cachedItem.lightCircle, 'Light', () {
+                    _openColorPicker(context, ColorType.Light);
+                  })),
               const SizedBox(width: 8),
-              _buildColorCircleWithText(cachedItem.darkCircle, 'Dark', () {
-                _openColorPicker(context, ColorType.Dark);
-              }),
+              Semantics(
+                  identifier: "${cachedItem.colorKey.name}_Dark",
+                  child: _buildColorCircleWithText(
+                      cachedItem.darkCircle, 'Dark', () {
+                    _openColorPicker(context, ColorType.Dark);
+                  })),
             ],
           ),
         ),
@@ -285,33 +291,35 @@ class _ScanSettingsViewHolderState extends State<ScanSettingsViewHolder> {
     return Column(
       children: [
         ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          title: Text(
-            widget.item.title,
-            style: const TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            title: Text(
+              widget.item.title,
+              style: const TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          subtitle: Text(
-            widget.item.subtitle,
-            style: const TextStyle(
-              fontSize: 14.0,
+            subtitle: Text(
+              widget.item.subtitle,
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
             ),
-          ),
-          trailing: Switch(
-              value: _isChecked,
-              onChanged: (isChecked) {
-                setState(() {
-                  _isChecked = isChecked;
-                });
-                widget.prefs.saveScanItem(widget.item.scanKey, isChecked);
-              },
-              activeColor: Colors.green,
-              inactiveThumbColor: Colors.grey,
-              inactiveTrackColor: Colors.grey.withOpacity(0.5)),
-        ),
+            trailing: Semantics(
+              identifier: widget.item.scanKey.name,
+              child: Switch(
+                  value: _isChecked,
+                  onChanged: (isChecked) {
+                    setState(() {
+                      _isChecked = isChecked;
+                    });
+                    widget.prefs.saveScanItem(widget.item.scanKey, isChecked);
+                  },
+                  activeColor: Colors.green,
+                  inactiveThumbColor: Colors.grey,
+                  inactiveTrackColor: Colors.grey.withOpacity(0.5)),
+            )),
         Container(
           width: double.infinity,
           height: 0.5,
@@ -440,33 +448,35 @@ class _EditSettingsViewHolderState extends State<EditSettingsViewHolder> {
     return Column(
       children: [
         ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          title: Text(
-            widget.item.title,
-            style: const TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            title: Text(
+              widget.item.title,
+              style: const TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          subtitle: Text(
-            widget.item.subtitle,
-            style: const TextStyle(
-              fontSize: 14.0,
+            subtitle: Text(
+              widget.item.subtitle,
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
             ),
-          ),
-          trailing: Switch(
-              value: _isChecked,
-              onChanged: (isChecked) {
-                setState(() {
-                  _isChecked = isChecked;
-                });
-                widget.prefs.saveEditItem(widget.item.editKey, isChecked);
-              },
-              activeColor: Colors.green,
-              inactiveThumbColor: Colors.grey,
-              inactiveTrackColor: Colors.grey.withOpacity(0.5)),
-        ),
+            trailing: Semantics(
+              identifier: widget.item.editKey.name,
+              child: Switch(
+                  value: _isChecked,
+                  onChanged: (isChecked) {
+                    setState(() {
+                      _isChecked = isChecked;
+                    });
+                    widget.prefs.saveEditItem(widget.item.editKey, isChecked);
+                  },
+                  activeColor: Colors.green,
+                  inactiveThumbColor: Colors.grey,
+                  inactiveTrackColor: Colors.grey.withOpacity(0.5)),
+            )),
         Container(
           width: double.infinity,
           height: 0.5,

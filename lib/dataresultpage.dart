@@ -103,6 +103,14 @@ class DataResultPageState extends State<DataResultPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Data Result Page'),
+        leading: Semantics(
+            identifier: "back",
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -222,14 +230,16 @@ class EntryField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: placeholder,
-        ),
-        controller: controller,
-        readOnly: true,
-        key: Key(entryName),
-      ),
+      child: Semantics(
+          identifier: entryName.replaceAll("Entry", ""),
+          child: TextFormField(
+            decoration: InputDecoration(
+              labelText: placeholder,
+            ),
+            controller: controller,
+            readOnly: true,
+            key: Key(entryName),
+          )),
     );
   }
 }

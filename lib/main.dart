@@ -6,7 +6,7 @@ import 'package:docutain_sdk/docutain_sdk_document.dart';
 import 'package:docutain_sdk/docutain_sdk_document_datareader.dart';
 import 'package:docutain_sdk/docutain_sdk_logger.dart';
 import 'package:docutain_sdk/docutain_sdk_ui.dart';
-import 'package:docutain_sdk_example_flutter/settings/SettingsSharedPreferences.dart';
+import 'package:docutain_sdk_example_flutter/settings/settingssharedpreferences.dart';
 import 'package:docutain_sdk_example_flutter/settings/data.dart';
 import 'package:docutain_sdk_example_flutter/settings/settings.dart';
 import 'package:docutain_sdk_example_flutter/settings/utils.dart';
@@ -194,24 +194,26 @@ class MyListView extends StatelessWidget {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
-          return Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => _onItemTap(context, index),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 16, 8),
-                child: ListTile(
-                  leading: Image.asset(
-                    '${items[index]['icon']!}' '$iconEnding',
-                    width: 40,
-                    height: 40,
+          return Semantics(
+              identifier: items[index]['id'],
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => _onItemTap(context, index),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 16, 8),
+                    child: ListTile(
+                      leading: Image.asset(
+                        '${items[index]['icon']!}' '$iconEnding',
+                        width: 40,
+                        height: 40,
+                      ),
+                      title: Text(items[index]['title']!),
+                      subtitle: Text(items[index]['description']!),
+                    ),
                   ),
-                  title: Text(items[index]['title']!),
-                  subtitle: Text(items[index]['description']!),
                 ),
-              ),
-            ),
-          );
+              ));
         },
       ),
     );
@@ -223,37 +225,42 @@ class MyListView extends StatelessWidget {
         'title': appLocalizations.documentScanner,
         'description': appLocalizations.docScannerDesc,
         'icon': 'assets/icons/document_scanner',
+        'id': 'document-scanner'
       },
       {
         'title': appLocalizations.dataExtraction,
         'description': appLocalizations.dataExtractDesc,
         'icon': 'assets/icons/quick_reference',
+        'id': 'data-extraction'
       },
       {
         'title': appLocalizations.textRecognition,
         'description': appLocalizations.textRecognitionDesc,
         'icon': 'assets/icons/insert_text',
+        'id': 'text-recognition'
       },
       {
         'title': appLocalizations.generatePdf,
         'description': appLocalizations.generatePdfDesc,
         'icon': 'assets/icons/picture_as_pdf',
+        'id': 'generate-pdf-document'
       },
       {
         'title': appLocalizations.settings,
         'description': appLocalizations.settingsDesc,
         'icon': 'assets/icons/settings',
+        'id': 'settings'
       },
     ];
   }
 
-  Future<String> startScan({bool imageImport = false}) async {
+  Future<String> startScan({scanGallery = false}) async {
     //There are a lot of settings to configure the scanner to match your specific needs
     //Check out the documentation to learn more https://docs.docutain.com/docs/Flutter/docScan#change-default-scan-behaviour
     var scanConfig = DocumentScannerConfiguration();
 
-    if (imageImport) {
-      scanConfig.source = Source.galleryMultiple;
+    if (scanGallery) {
+      scanConfig.source = Source.gallery;
     }
 
     //In this sample app we provide a settings page which the user can use to alter the scan settings
@@ -405,30 +412,46 @@ class MyListView extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              ListTile(
-                title: Text(localizations.inputOptionScan),
-                onTap: () async {
-                  selectedOption = 1;
-                  Navigator.pop(context);
-                  tmp = startScan();
-                },
-              ),
-              ListTile(
-                title: Text(localizations.inputOptionPdf),
-                onTap: () async {
-                  selectedOption = 2;
-                  Navigator.pop(context);
-                  tmp = openPDFPicker(context);
-                },
-              ),
-              ListTile(
-                title: Text(localizations.inputOptionImage),
-                onTap: () async {
-                  selectedOption = 3;
-                  Navigator.pop(context);
-                  tmp = startScan(imageImport: true);
-                },
-              ),
+              Semantics(
+                  identifier: 'scan-document-camera',
+                  child: ListTile(
+                    title: Text(localizations.inputOptionScan),
+                    onTap: () async {
+                      selectedOption = 1;
+                      Navigator.pop(context);
+                      tmp = startScan();
+                    },
+                  )),
+              Semantics(
+                  identifier: 'scan-document-gallery',
+                  child: ListTile(
+                    title: Text(localizations.inputOptionScanGallery),
+                    onTap: () async {
+                      selectedOption = 1;
+                      Navigator.pop(context);
+                      tmp = startScan(scanGallery: true);
+                    },
+                  )),
+              Semantics(
+                  identifier: 'pdf-import',
+                  child: ListTile(
+                    title: Text(localizations.inputOptionPdf),
+                    onTap: () async {
+                      selectedOption = 2;
+                      Navigator.pop(context);
+                      tmp = openPDFPicker(context);
+                    },
+                  )),
+              Semantics(
+                  identifier: 'image-import',
+                  child: ListTile(
+                    title: Text(localizations.inputOptionImage),
+                    onTap: () async {
+                      selectedOption = 3;
+                      Navigator.pop(context);
+                      tmp = openImagePicker(context);
+                    },
+                  )),
             ],
           ),
         );
@@ -447,6 +470,25 @@ class MyListView extends StatelessWidget {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
+      allowMultiple: false,
+    );
+
+    if (result != null) {
+      final filePath = result.files.single.path;
+      // Do something with the selected file path
+      debugPrint('Selected file path: $filePath');
+      return filePath!;
+    } else {
+      // User canceled the picker
+      debugPrint('No file selected');
+      return false.toString();
+    }
+  }
+
+  Future<String> openImagePicker(BuildContext context) async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'heic'],
       allowMultiple: false,
     );
 

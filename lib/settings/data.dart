@@ -1,5 +1,5 @@
-
 import 'package:docutain_sdk/docutain_sdk_ui.dart';
+import 'package:flutter/material.dart';
 
 abstract class SettingsMultiItems {}
 
@@ -11,9 +11,9 @@ class TitleItem extends SettingsMultiItems {
 
 class ColorItem extends SettingsMultiItems {
   final String title;
-  final  String subtitle;
-  final  String lightCircle;
-  final  String darkCircle;
+  final String subtitle;
+  final String lightCircle;
+  final String darkCircle;
   final ColorSetting colorKey;
 
   ColorItem({

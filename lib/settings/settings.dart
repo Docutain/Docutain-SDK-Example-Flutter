@@ -2,8 +2,9 @@ import 'package:docutain_sdk_example_flutter/settings/settingsmultiviewsadapter.
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'SettingsSharedPreferences.dart';
+import 'settingssharedpreferences.dart';
 import 'data.dart';
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -16,7 +17,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   SettingsMultiViewsAdapter? settingsAdapter;
   late List<SettingsMultiItems> settingsItems;
   late AppLocalizations localizations;
-  final GlobalKey<SettingsMultiViewsAdapterState> adapterKey = GlobalKey<SettingsMultiViewsAdapterState>();
+  final GlobalKey<SettingsMultiViewsAdapterState> adapterKey =
+      GlobalKey<SettingsMultiViewsAdapterState>();
 
   @override
   void initState() {
@@ -31,12 +33,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.settings),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        leading: Semantics(
+            identifier: "back",
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
       ),
       body: Stack(
         children: [
@@ -88,17 +92,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   List<SettingsMultiItems> _prepareData() {
     final colorPrimaryItem =
-    settingsSharedPreferences.getColorItem(ColorSetting.ColorPrimary);
+        settingsSharedPreferences.getColorItem(ColorSetting.ColorPrimary);
     final colorSecondaryItem =
-    settingsSharedPreferences.getColorItem(ColorSetting.ColorSecondary);
+        settingsSharedPreferences.getColorItem(ColorSetting.ColorSecondary);
     final colorOnSecondaryItem =
-    settingsSharedPreferences.getColorItem(ColorSetting.ColorOnSecondary);
+        settingsSharedPreferences.getColorItem(ColorSetting.ColorOnSecondary);
     final colorScanButtonsLayoutBackground = settingsSharedPreferences
         .getColorItem(ColorSetting.ColorScanButtonsLayoutBackground);
     final colorScanButtonsForeground = settingsSharedPreferences
         .getColorItem(ColorSetting.ColorScanButtonsForeground);
     final colorScanPolygon =
-    settingsSharedPreferences.getColorItem(ColorSetting.ColorScanPolygon);
+        settingsSharedPreferences.getColorItem(ColorSetting.ColorScanPolygon);
     final colorBottomBarBackground = settingsSharedPreferences
         .getColorItem(ColorSetting.ColorBottomBarBackground);
     final colorBottomBarForeground = settingsSharedPreferences
@@ -294,8 +298,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _resetSettings() {
-      settingsSharedPreferences.defaultSettings();
-      settingsItems = _prepareData();
-      adapterKey.currentState?.refresh(settingsItems);
+    settingsSharedPreferences.defaultSettings();
+    settingsItems = _prepareData();
+    adapterKey.currentState?.refresh(settingsItems);
   }
 }

@@ -41,7 +41,6 @@ class AppColorsLight {
   static const Color lineColor = Color(0xffdb999999);
 }
 
-
 class AppColorsDark {
   static const Color primary = Color(0xFF58AC5B);
   static const Color primaryVariant = Color(0xFF388E3C);
@@ -71,16 +70,14 @@ class ThemeModel with ChangeNotifier {
   ThemeData darkModeTheme = ThemeData(
     brightness: Brightness.dark,
     colorScheme: const ColorScheme(
-      background: AppColorsDark.onPrimary,
       brightness: Brightness.dark,
       primary: AppColorsDark.primary,
-      onPrimary: AppColorsDark.onPrimary,
+      onPrimary: AppColorsDark.primary,
       secondary: AppColorsDark.secondary,
       onSecondary: AppColorsDark.onSecondary,
       error: AppColorsDark.docutainColorError,
       onError: AppColorsDark.docutainColorError,
-      onBackground: AppColorsDark.onPrimary,
-      surface:  AppColorsDark.onSecondary,
+      surface: AppColorsDark.onPrimary,
       onSurface: AppColorsDark.onSecondary,
     ),
     appBarTheme: const AppBarTheme(
@@ -92,7 +89,6 @@ class ThemeModel with ChangeNotifier {
   ThemeData lightModeTheme = ThemeData(
     brightness: Brightness.light,
     colorScheme: const ColorScheme(
-      background:AppColorsLight.onPrimary,
       brightness: Brightness.light,
       primary: AppColorsLight.primary,
       onPrimary: AppColorsLight.onPrimary,
@@ -100,9 +96,8 @@ class ThemeModel with ChangeNotifier {
       onSecondary: AppColorsLight.onSecondary,
       error: AppColorsLight.docutainColorError,
       onError: AppColorsLight.docutainColorError,
-      onBackground: Colors.black,
       surface: AppColorsLight.onPrimary,
-      onSurface: Colors.black,
+      onSurface: AppColorsLight.black,
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColorsLight.topBarsBackground,

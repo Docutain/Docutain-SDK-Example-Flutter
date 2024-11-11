@@ -22,13 +22,22 @@ class TextOCRPageState extends State<TextOCRPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Text OCR Page'),
+        leading: Semantics(
+            identifier: "back",
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TextField(textResult),
+              Semantics(
+                  identifier: "text-result", child: TextField(textResult)),
               if (isLoading) const Center(child: CircularProgressIndicator()),
             ],
           ),
